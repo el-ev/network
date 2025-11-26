@@ -1,0 +1,10 @@
+auto dn42-dummy
+
+iface dn42-dummy inet static
+    pre-up ip link add dn42-dummy type dummy || true
+    address {{ ownip }}
+    netmask 255.255.255.255
+
+iface dn42-dummy inet6 static
+    address {{ ownip6 }}
+    netmask 128

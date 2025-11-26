@@ -1,0 +1,7 @@
+---
+- name: Setup Looking Glass Server
+  hosts: lg_server
+  become: true
+  gather_facts: true
+  roles:
+    - config-lg-server

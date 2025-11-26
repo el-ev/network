@@ -1,0 +1,14 @@
+peers:
+- name: kioubit
+  wg:
+    port: 23914
+    endpoint: us3.g-load.eu:21023
+    wg_pubkey: "sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8="
+    peer4: null
+    peer6: fe80::ade0
+  bgp:
+    asn: 4242423914
+    ipv4: false
+    ipv6: true
+    extended_next_hop: true
+    mp_bgp: true

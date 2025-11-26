@@ -1,0 +1,54 @@
+---
+- name: Gather DN42 node list
+  ansible.builtin.set_fact:
+    dn42_node_hosts: "{{ groups.get(dn42_nodes_group, []) | list }}"
+
+- name: Create /etc/bird/nodes directory
+  ansible.builtin.file:
+    path: /etc/bird/nodes
+    state: directory
+    owner: bird
+    group: bird
+    mode: '0755'
+
+- name: Create /etc/bird/peers directory
+  ansible.builtin.file:
+    path: /etc/bird/peers
+    state: directory
+    owner: bird
+    group: bird
+    mode: '0755'
+
+- name: Render node-specific BIRD configuration
+  ansible.builtin.template:
+    src: node.conf.j2
+    dest: /etc/bird/node.conf
+    owner: bird
+    group: bird
+    mode: '0644'
+    validate: bird -p -c %s
+  notify: Reload BIRD configuration
+
+- name: Copy BIRD main configuration
+  ansible.builtin.copy:
+    src: bird.conf
+    dest: /etc/bird/bird.conf
+    owner: bird
+    group: bird
+    mode: '0644'
+    validate: bird -p -c %s
+  notify: Reload BIRD configuration
+
+- name: Render per-node BIRD configurations
+  ansible.builtin.template:
+    src: node_peer.conf.j2
+    dest: "/etc/bird/nodes/{{ bird_node_prefix }}{{ peer | replace('-', '_') }}.conf"
+    owner: bird
+    group: bird
+    mode: '0644'
+  loop: "{{ dn42_node_hosts }}"
+  loop_control:
+    loop_var: peer
+    label: "{{ peer }}"
+  when: peer != inventory_hostname
+  notify: Reload BIRD configuration

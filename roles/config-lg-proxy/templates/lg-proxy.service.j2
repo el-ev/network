@@ -1,0 +1,16 @@
+{%- set lg_working_dir = automation_root_dir + '/lg' -%}
+{%- set lg_proxy_exec = lg_working_dir + '/lg-proxy' -%}
+
+[Unit]
+Description=Bird Looking Glass Proxy Service
+After=network.target
+
+[Service]
+ExecStart={{ lg_proxy_exec }} -c {{ lg_working_dir }}/proxy-config.json
+WorkingDirectory={{ lg_working_dir }}
+User={{ automation_user }}
+Group=bird
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

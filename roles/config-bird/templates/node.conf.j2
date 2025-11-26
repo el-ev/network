@@ -1,0 +1,10 @@
+define OWNAS = {{ asn }};
+define OWNIP = {{ ownip }};
+define OWNIPv6 = {{ ownip6 }};
+define OWNNET = {{ ownnet4 }};
+define OWNNETv6 = {{ ownnet6 }};
+define OWNNODENET = {{ ownip }}/32;
+define OWNNODENETv6 = {{ ownip6block }};
+define OWNNETSET = [{{ ownnet4 }}+];
+define OWNNETSETv6 = [{{ ownnet6 }}+];
+define OWNHOSTNAME = "{{ ansible_host }}";

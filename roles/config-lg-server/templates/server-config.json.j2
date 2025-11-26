@@ -1,0 +1,28 @@
+{%- set listen_port = lg_proxy_listen_port | mandatory -%}
+{%- set shared_secret = lg_server_shared_secret | mandatory -%}
+{%- set nodes = namespace(items=[]) -%}
+
+{%- for lg_proxy in groups.get('dn42', []) -%}
+{%-   set host_entry = hostvars[lg_proxy] | default({}) -%}
+{%-   set hostname = host_entry.ansible_host | default(lg_proxy) -%}
+{%-   set nodes.items = nodes.items + [{
+    "name": lg_proxy,
+    "url": "http://%s:%s" % (hostname, listen_port),
+    "shared_secret": shared_secret
+    }] -%}
+{%- endfor -%}
+
+{%- set config = {
+    "listen": lg_server_listen | mandatory,
+    "network": {
+    "name": network_name | mandatory,
+    "asn": asn | mandatory
+    },
+    "nodes": nodes.items
+} -%}
+
+{%- if lg_server_poll_idle_timeout is defined -%}
+{%-   set config = config | combine({"poll_idle_timeout": lg_server_poll_idle_timeout}) -%}
+{%- endif -%}
+
+{{ config | to_nice_json }}

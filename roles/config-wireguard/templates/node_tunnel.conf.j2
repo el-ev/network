@@ -1,0 +1,18 @@
+{% set peer_order = peer.peer_order | int %}
+{% set order = wireguard_self_order | int %}
+
+[Interface]
+PrivateKey = {{ wireguard_private_key }}
+ListenPort = {{ 30000 + peer_order }}
+Table = off
+PostUp = ip -6 addr add {{ inter_node_lla_prefix }}{{ order }} dev %i
+PostUp = sysctl -w net.ipv6.conf.%i.autoconf=0
+PostDown = ip -6 addr del {{ inter_node_lla_prefix }}{{ order }} dev %i
+
+[Peer]
+PublicKey = {{ peer.public_key }}
+Endpoint = {{ peer.endpoint_host }}:{{ 30000 + order }}
+AllowedIPs = {{ wireguard_allowed_ips | join(', ') }}
+{% if wireguard_keepalive | default(0) | int > 0 %}
+PersistentKeepalive = {{ wireguard_keepalive | int }}
+{% endif %}

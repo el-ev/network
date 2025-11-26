@@ -1,0 +1,33 @@
+{%- set lg_server_list = groups['lg_server'] | default([]) -%}
+{%- set ns = namespace(allowed_ip_entries=['127.0.0.0/8']) -%}
+
+{%- for lg_server in lg_server_list -%}
+{%-   set host_entry = hostvars[lg_server] | default({}) -%}
+{%-   set hostname = host_entry.get('ansible_host', lg_server) -%}
+{%-   set host_v4 = query('dig', hostname, 'qtype=A', 'flat=1') | default([], true) -%}
+{%-   set host_v6 = query('dig', hostname, 'qtype=AAAA', 'flat=1') | default([], true) -%}
+{%-   for ip in host_v4 -%}
+{%-     set ns.allowed_ip_entries = ns.allowed_ip_entries + [ip ~ '/32'] -%}
+{%-   endfor -%}
+{%-   for ip in host_v6 -%}
+{%-     set ns.allowed_ip_entries = ns.allowed_ip_entries + [ip ~ '/128'] -%}
+{%-   endfor -%}
+{%- endfor -%}
+
+{%- set config = {
+	'bind_socket': (lg_proxy_bind_socket | default('/var/run/bird/bird.ctl')),
+	'listen': (lg_proxy_listen_host | mandatory) ~ ':' ~ (lg_proxy_listen_port | mandatory | string),
+	'allowed_ips': ns.allowed_ip_entries | unique,
+	'shared_secret': (lg_proxy_shared_secret | mandatory),
+	'traceroute_bin': (lg_proxy_traceroute_bin | default('/usr/sbin/traceroute')),
+	'traceroute_args': (lg_proxy_traceroute_args | default('-q1 -N32 -w2')),
+	'peering': {
+		'ipv4': (ownip | mandatory),
+		'ipv6': (ownip6 | mandatory),
+		'link_local_ipv6': (link_local_ipv6 | mandatory),
+		'wg_pubkey': (wg_pubkey | mandatory),
+		'endpoint': (ansible_host | mandatory)
+	}
+} -%}
+
+{{ config | to_nice_json }}

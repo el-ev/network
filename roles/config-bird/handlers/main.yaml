@@ -1,0 +1,11 @@
+---
+- name: Reload BIRD configuration
+  ansible.builtin.command: birdc configure
+  register: bird_reconfigure_result
+  changed_when: "'Reconfigured' in bird_reconfigure_result.stdout"
+  failed_when: bird_reconfigure_result.rc != 0
+
+- name: Restart BIRD service
+  ansible.builtin.systemd:
+    name: bird
+    state: restarted

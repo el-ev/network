@@ -1,0 +1,7 @@
+---
+- name: Setup Looking Glass Proxy
+  hosts: dn42
+  become: true
+  gather_facts: true
+  roles:
+    - config-lg-proxy

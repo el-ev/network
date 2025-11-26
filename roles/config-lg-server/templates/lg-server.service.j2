@@ -1,0 +1,16 @@
+{%- set lg_working_dir = automation_root_dir + '/lg' -%}
+{%- set lg_server_exec = lg_working_dir + '/lg-server' -%}
+
+[Unit]
+Description=Bird Looking Glass Server Service
+After=network.target
+
+[Service]
+ExecStart={{ lg_server_exec }} -c {{ lg_working_dir }}/server-config.json
+WorkingDirectory={{ lg_working_dir }}
+User={{ automation_user }}
+Group=bird
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

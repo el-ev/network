@@ -1,0 +1,13 @@
+---
+# Network Information
+network_name: IRIS-AS
+asn: "4242421023"
+
+# IP Address Assignments
+ownnet4: 172.21.111.64/26
+ownnet6: fd42:4242:1023::/48
+
+# Automation Settings
+automation_user: dn42-automation
+automation_root_dir: /opt/dn42
+automation_user_home: /opt/dn42/automation/
