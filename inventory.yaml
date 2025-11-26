@@ -1,10 +1,6 @@
 ---
 all:
   vars:
-    dn42_domain: "iris.dn42" 
-    ipv4_reverse_zone: "111.21.172.in-addr.arpa"
-    ipv6_reverse_zone: "3.2.0.1.2.4.2.4.2.4.d.f.ip6.arpa"
-    
   children:
     nodes:
       hosts:

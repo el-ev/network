@@ -34,7 +34,7 @@
       ansible.builtin.file:
         path: /etc/wireguard
         state: directory
-        mode: '0700'
+        mode: '0755'
 
     - name: Generate WireGuard private key
       ansible.builtin.shell: "set -o pipefail; wg genkey | cat > /etc/wireguard/privatekey"
@@ -59,13 +59,6 @@
         path: /etc/wireguard/publickey
         state: file
         mode: '0644'
-
-    - name: Set /etc/wireguard permissions
-      ansible.builtin.file:
-        path: /etc/wireguard
-        state: directory
-        mode: '0755'
-      changed_when: false
 
 - name: Setup DN42 workspace
   ansible.builtin.file:
