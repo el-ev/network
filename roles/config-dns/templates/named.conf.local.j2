@@ -1,0 +1,56 @@
+// Managed by Ansible. Do not edit manually.
+
+{% for zone in dns_zones %}
+zone "{{ zone.name }}" {
+    type {{ zone.type }};
+
+{% if zone.file is defined %}
+    file "{{ dns_service.zone_dir }}/{{ zone.file }}";
+{% endif %}
+
+{% if zone.forwarders is defined and zone.forwarders | length > 0 %}
+    forwarders {
+{%   for fwd in zone.forwarders %}
+        {{ fwd }};
+{%   endfor %}
+    };
+{% endif %}
+
+{% if zone.forward_policy is defined %}
+    forward {{ zone.forward_policy }};
+{% endif %}
+
+{% if zone.masters is defined and zone.masters | length > 0 %}
+    masters {
+{%   for master in zone.masters %}
+        {{ master }};
+{%   endfor %}
+    };
+{% endif %}
+
+{% if zone.allow_transfer is defined and zone.allow_transfer | length > 0 %}
+    allow-transfer {
+{%   for dest in zone.allow_transfer %}
+        {{ dest }};
+{%   endfor %}
+    };
+{% endif %}
+
+{% if zone.allow_query is defined and zone.allow_query | length > 0 %}
+    allow-query {
+{%   for dest in zone.allow_query %}
+        {{ dest }};
+{%   endfor %}
+    };
+{% endif %}
+
+{% if zone.notify is defined %}
+    notify {{ zone.notify | ternary('yes', 'no') }};
+{% endif %}
+
+{% for statement in zone.extra_statements | default([]) %}
+    {{ statement }}
+{% endfor %}
+};
+
+{% endfor %}

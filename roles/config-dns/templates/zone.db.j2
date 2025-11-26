@@ -1,0 +1,18 @@
+; Managed by Ansible. Do not edit manually.
+
+$TTL {{ zone.ttl }}
+$ORIGIN {{ zone.origin }}
+
+; SOA Record
+@       IN      SOA     {{ zone.soa.primary_ns }} {{ zone.soa.contact }} (
+                        {{ zone.soa.serial }}      ; Serial
+                        {{ zone.soa.refresh }}      ; Refresh
+                        {{ zone.soa.retry }}        ; Retry
+                        {{ zone.soa.expire }}       ; Expire
+                        {{ zone.soa.minimum }} )    ; Negative Cache TTL
+
+{% for record in zone.records %}
+{%   if record.comment is defined %}; {{ record.comment }}
+{%   endif %}
+{{ record.name | default('@') }}{% if record.ttl is defined %} {{ record.ttl }}{% endif %} {{ record.class | default('IN') }} {{ record.type }} {{ record.value }}
+{% endfor %}

@@ -1,0 +1,65 @@
+// Managed by Ansible. Do not edit manually.
+
+{% set options = dns_named_options_rendered | default(dns_named_options) %}
+
+options {
+    directory "{{ options.directory }}";
+
+{% if options.forwarders | default([]) | length > 0 %}
+    forwarders {
+{%   for addr in options.forwarders %}
+        {{ addr }};
+{%   endfor %}
+    };
+{% endif %}
+
+    dnssec-validation {{ options.dnssec_validation }};
+
+{% if options.listen_on_v4 | default([]) | length > 0 %}
+    listen-on {
+{%   for addr in options.listen_on_v4 %}
+        {{ addr }};
+{%   endfor %}
+    };
+{% endif %}
+
+{% if options.listen_on_v6 | default([]) | length > 0 %}
+    listen-on-v6 {
+{%   for addr in options.listen_on_v6 %}
+        {{ addr }};
+{%   endfor %}
+    };
+{% endif %}
+
+{% if options.allow_query | default([]) | length > 0 %}
+    allow-query {
+{%   for cidr in options.allow_query %}
+        {{ cidr }};
+{%   endfor %}
+    };
+{% endif %}
+
+    recursion {{ options.recursion | default(false) | ternary('yes', 'no') }};
+
+{% if options.allow_recursion | default([]) | length > 0 %}
+    allow-recursion {
+{%   for cidr in options.allow_recursion %}
+        {{ cidr }};
+{%   endfor %}
+    };
+{% endif %}
+
+    auth-nxdomain {{ options.auth_nxdomain | default(false) | ternary('yes', 'no') }};
+
+{% if options.version is defined %}
+{%   if options.version == 'none' %}
+    version none;
+{%   else %}
+    version "{{ options.version }}";
+{%   endif %}
+{% endif %}
+
+{% for statement in options.extra_statements | default([]) %}
+    {{ statement }}
+{% endfor %}
+};

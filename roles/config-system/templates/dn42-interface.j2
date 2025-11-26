@@ -8,3 +8,15 @@ iface dn42-dummy inet static
 iface dn42-dummy inet6 static
     address {{ ownip6 }}
     netmask 128
+
+{% set dns_binding = dns_nameserver_bindings[inventory_hostname] | default({}) %}
+{% if dns_binding.interface | default('dn42-dummy') == 'dn42-dummy' %}
+{%   for addr in dns_binding.ipv4_addresses | default([]) %}
+    up ip addr add {{ addr }} dev dn42-dummy || true
+    down ip addr del {{ addr }} dev dn42-dummy || true
+{%   endfor %}
+{%   for addr in dns_binding.ipv6_addresses | default([]) %}
+    up ip -6 addr add {{ addr }} dev dn42-dummy || true
+    down ip -6 addr del {{ addr }} dev dn42-dummy || true
+{%   endfor %}
+{% endif %}

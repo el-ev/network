@@ -65,6 +65,7 @@
         path: /etc/wireguard
         state: directory
         mode: '0755'
+      changed_when: false
 
 - name: Setup DN42 workspace
   ansible.builtin.file:
@@ -92,7 +93,11 @@
     mode: '0644'
 
 - name: Ensure dn42-dummy interface is up
-  ansible.builtin.command: ip link set dn42-dummy up
+  ansible.builtin.shell: |
+    ifdown dn42-dummy || true
+    ifup dn42-dummy
+  args:
+    executable: /bin/bash
   changed_when: false
   failed_when: false
 
@@ -122,6 +127,7 @@
       args:
         creates: /etc/bird/roa_dn42.conf
       when: not ansible_check_mode
+      changed_when: false
 
 - name: Read WireGuard public key
   ansible.builtin.slurp:

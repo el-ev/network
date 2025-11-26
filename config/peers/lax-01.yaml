@@ -1,5 +1,5 @@
 peers:
-- name: kioubit
+- name: dn42_3914
   wg:
     port: 23914
     endpoint: us3.g-load.eu:21023

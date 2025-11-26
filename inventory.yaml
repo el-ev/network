@@ -1,0 +1,42 @@
+---
+all:
+  vars:
+    dn42_domain: "iris.dn42" 
+    ipv4_reverse_zone: "111.21.172.in-addr.arpa"
+    ipv6_reverse_zone: "3.2.0.1.2.4.2.4.2.4.d.f.ip6.arpa"
+    
+  children:
+    nodes:
+      hosts:
+        lax-01:
+          ansible_host: lax-01.node.svc.moe
+          ownip: 172.21.111.65
+          ownip6: fd42:4242:1023:65::1
+          ownip6block: fd42:4242:1023:65::/64
+          link_local_ipv6: fe80::1023:2
+          wg_pubkey: "nwMyp5pohAUDaaT2oVQQZiE/EI31DnnxVqAcKIWSuiM="
+
+        hkg-01:
+          ansible_host: hkg-01.node.svc.moe
+          ownip: 172.21.111.66
+          ownip6: fd42:4242:1023:66::1
+          ownip6block: fd42:4242:1023:66::/64
+          link_local_ipv6: fe80::1023:2
+          wg_pubkey: "dPTukyAM6scP2dlCYiP55BDb0lmuBhX7Rm4G8p/9awA="
+
+        tyo-01:
+          ansible_host: tyo-01.node.svc.moe
+          ownip: 172.21.111.67
+          ownip6: fd42:4242:1023:67::1
+          ownip6block: fd42:4242:1023:67::/64
+          link_local_ipv6: fe80::1023:2
+          wg_pubkey: "pv0bwaUm/ppI7Yaoi7w0qrXX5EW7Qo2njTSNG19AHgM="
+    lg_server:
+      hosts:
+        lax-01:
+    dn42:
+      hosts:
+        lax-01:
+        hkg-01:
+        tyo-01:
+
