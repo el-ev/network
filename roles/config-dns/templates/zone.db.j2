@@ -16,3 +16,31 @@ $ORIGIN {{ zone.origin }}
 {%   endif %}
 {{ record.name | default('@') }}{% if record.ttl is defined %} {{ record.ttl }}{% endif %} {{ record.class | default('IN') }} {{ record.type }} {{ record.value }}
 {% endfor %}
+
+{% if zone.name == domain_name %}
+; Nodes (A / AAAA)
+{%   for host in groups['nodes'] %}
+{%     if hostvars[host].ownip is defined %}
+{{ host }}.node  IN  A     {{ hostvars[host].ownip }}
+{%     endif %}
+{%     if hostvars[host].ownip6 is defined %}
+{{ host }}.node  IN  AAAA  {{ hostvars[host].ownip6 }}
+{%     endif %}
+{%   endfor %}
+{% endif %}
+
+{% if zone.name == reverse_zone_ipv4 %}
+{%   for host in groups['nodes'] %}
+{%     if hostvars[host].ownip is defined %}
+{{ hostvars[host].ownip.split('.')[-1] }}  IN  PTR  {{ host }}.node.iris.dn42.
+{%     endif %}
+{%   endfor %}
+{% endif %}
+
+{% if zone.name == reverse_zone_ipv6 %}
+{%   for host in groups['nodes'] %}
+{%     if hostvars[host].ownip6 is defined %}
+{{ (hostvars[host].ownip6 | ansible.utils.ipaddr('revdns')) | replace('.' + zone.origin, '') }}  IN  PTR  {{ host }}.node.iris.dn42.
+{%     endif %}
+{%   endfor %}
+{% endif %}
