@@ -7,6 +7,21 @@
     group: nogroup
     mode: '0755'
 
+- name: Check existing lg proxy binary
+  ansible.builtin.stat:
+    path: "{{ automation_root_dir }}/lg/lg-proxy"
+  register: lg_proxy_binary
+
+- name: Backup current lg proxy binary
+  ansible.builtin.copy:
+    src: "{{ automation_root_dir }}/lg/lg-proxy"
+    dest: "{{ automation_root_dir }}/lg/lg-proxy.backup"
+    remote_src: true
+    owner: root
+    group: nogroup
+    mode: '0755'
+  when: lg_proxy_binary.stat.exists
+
 - name: Copy lg proxy binary
   ansible.builtin.copy:
     src: lg-proxy

@@ -7,6 +7,21 @@
     group: nogroup
     mode: '0755'
 
+- name: Check existing lg server binary
+  ansible.builtin.stat:
+    path: "{{ automation_root_dir }}/lg/lg-server"
+  register: lg_server_binary
+
+- name: Backup current lg server binary
+  ansible.builtin.copy:
+    src: "{{ automation_root_dir }}/lg/lg-server"
+    dest: "{{ automation_root_dir }}/lg/lg-server.backup"
+    remote_src: true
+    owner: root
+    group: nogroup
+    mode: '0755'
+  when: lg_server_binary.stat.exists
+
 - name: Copy lg server binary
   ansible.builtin.copy:
     src: lg-server
