@@ -1,5 +1,5 @@
 ---
-- name: Setup DN42 for a fresh system
+- name: Setup fresh system
   hosts: dn42
   become: true
   gather_facts: true

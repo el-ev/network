@@ -1,8 +1,4 @@
 {%- set peer_vars = hostvars.get(peer, {}) -%}
-{%- if peer_vars.ownip6 is defined %}
 protocol bgp {{ bird_node_prefix }}{{ peer | replace('-', '_') }} from internal_bgp {
     neighbor {{ peer_vars.ownip6 }} as OWNAS;
 }
-{%- else %}
-{#-   Peer {{ peer }} is missing ownip6 in hostvars; entry skipped. -#}
-{%- endif %}

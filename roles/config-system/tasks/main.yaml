@@ -14,20 +14,6 @@
     state: present
     update_cache: true
 
-- name: Setup sysctl for DN42
-  sysctl:
-    name: "{{ item.name }}"
-    value: "{{ item.value }}"
-    state: present
-    sysctl_file: /etc/sysctl.d/60-dn42.conf
-    reload: true
-  loop:
-    - { name: 'net.ipv4.conf.default.rp_filter', value: '0' }
-    - { name: 'net.ipv4.conf.all.rp_filter', value: '0' }
-    - { name: 'net.ipv4.ip_forward', value: '1' }
-    - { name: 'net.ipv6.conf.all.forwarding', value: '1' }
-
-
 - name: Setup wireguard
   block:
     - name: Create /etc/wireguard directory
@@ -59,68 +45,6 @@
         path: /etc/wireguard/publickey
         state: file
         mode: '0644'
-
-- name: Setup DN42 workspace
-  ansible.builtin.file:
-    path: "{{ automation_root_dir }}"
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
-
-- name: Create automation account for dn42 scripts
-  ansible.builtin.user:
-    name: "{{ automation_user }}"
-    group: nogroup
-    groups: bird
-    system: true
-    password: "!"
-    home: "{{ automation_user_home }}"
-
-- name: Copy dn42 dummy interface config
-  ansible.builtin.template:
-    src: dn42-interface.j2
-    dest: /etc/network/interfaces.d/60-dn42-dummy
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Ensure dn42-dummy interface is up
-  ansible.builtin.shell: |
-    ifdown dn42-dummy || true
-    ifup dn42-dummy
-  args:
-    executable: /bin/bash
-  changed_when: false
-  failed_when: false
-
-- name: Setup ROA script
-  block:
-    - name: Copy ROA update script
-      ansible.builtin.copy:
-        src: update-dn42-roas.sh
-        dest: /opt/dn42/update-dn42-roas.sh
-        owner: root
-        group: root
-        mode: '0755'
-
-    - name: Setup cron job for ROA updates
-      ansible.builtin.cron:
-        name: "Update DN42 ROAs"
-        minute: "15"
-        hour: "*"
-        job: "{{ automation_root_dir }}/update-dn42-roas.sh"
-        user: bird
-
-    - name: Run ROA update script once if not exists
-      ansible.builtin.command: "{{ automation_root_dir }}/update-dn42-roas.sh"
-      become: true
-      become_user: bird
-      failed_when: false
-      args:
-        creates: /etc/bird/roa_dn42.conf
-      when: not ansible_check_mode
-      changed_when: false
 
 - name: Read WireGuard public key
   ansible.builtin.slurp:
