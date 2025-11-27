@@ -5,9 +5,7 @@
 PrivateKey = {{ wireguard_private_key }}
 ListenPort = {{ 30000 + peer_order }}
 Table = off
-PostUp = ip -6 addr add {{ inter_node_lla_prefix }}{{ order }} dev %i
-PostUp = sysctl -w net.ipv6.conf.%i.autoconf=0
-PostDown = ip -6 addr del {{ inter_node_lla_prefix }}{{ order }} dev %i
+PostUp = ip addr add {{ inter_node_lla_prefix }}{{ order }}/64 dev %i
 
 [Peer]
 PublicKey = {{ peer.public_key }}
