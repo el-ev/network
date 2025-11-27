@@ -26,7 +26,6 @@
     owner: bird
     group: bird
     mode: '0644'
-    validate: bird -p -c %s
   notify: Reload BIRD configuration
 
 - name: Copy BIRD main configuration
