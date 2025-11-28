@@ -3,7 +3,7 @@
 {%- set shared_secret = lg_server_shared_secret | mandatory -%}
 {%- set nodes = namespace(items=[]) -%}
 
-{%- for lg_proxy in groups.get('dn42', []) -%}
+{%- for lg_proxy in groups.get(dn42_group, []) -%}
 {%-   set host_entry = hostvars[lg_proxy] | default({}) -%}
 {%-   set hostname = host_entry.ansible_host | default(lg_proxy) -%}
 {%-   set nodes.items = nodes.items + [{

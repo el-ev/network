@@ -1,11 +1,11 @@
 ---
 - name: Gather node list
   ansible.builtin.set_fact:
-    node_hosts: "{{ groups.get(bird_node_group, []) | list }}"
+    node_hosts: "{{ groups.get(node_group, []) | list }}"
 
 - name: Gather dn42 node list
   ansible.builtin.set_fact:
-    node_hosts: "{{ groups.get(bird_dn42_group, []) | list }}"
+    node_hosts: "{{ groups.get(dn42_group, []) | list }}"
 
 - name: Setup sysctl for DN42
   sysctl:

@@ -1,7 +1,3 @@
 ---
-bird_node_group: node
-bird_dn42_group: dn42
-
-# Prefix for BIRD node configuration files
 bird_node_prefix: "node_"
 bird_dn42_prefix: "dn42_"
