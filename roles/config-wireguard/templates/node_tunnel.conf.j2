@@ -1,5 +1,5 @@
 {% set peer_order = peer.peer_order | int %}
-{% set order = wireguard_self_order | int %}
+{% set order = wg_node_self_order | int %}
 
 [Interface]
 PrivateKey = {{ wireguard_private_key }}
@@ -11,6 +11,3 @@ PostUp = ip addr add {{ inter_node_lla_prefix }}{{ order }}/64 dev %i
 PublicKey = {{ peer.public_key }}
 Endpoint = {{ peer.endpoint_host }}:{{ 30000 + order }}
 AllowedIPs = {{ wireguard_allowed_ips | join(', ') }}
-{% if wireguard_keepalive | default(0) | int > 0 %}
-PersistentKeepalive = {{ wireguard_keepalive | int }}
-{% endif %}

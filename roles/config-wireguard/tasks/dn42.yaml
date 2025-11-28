@@ -1,0 +1,40 @@
+---
+- name: Build DN42 peer descriptors
+  ansible.builtin.set_fact:
+    wg_dn42_peer_list: "{{ (wg_dn42_peer_list | default([])) + [peer_entry] }}"
+  vars:
+    peer_name: "{{ wireguard_dn42_prefix }}{{ (item.bgp.asn | string)[-4:] }}"
+    peer_entry:
+      peer_name: "{{ name }}"
+      interface_name: "{{ name }}"
+      port: "{{ item.wg.port | default((item.bgp.asn | string)[-5:]) }}"
+      endpoint: "{{ item.wg.endpoint | mandatory }}"
+      wg_pubkey: "{{ item.wg.wg_pubkey | mandatory }}"
+      peer4: "{{ item.wg.peer4 | default(none) }}"
+      peer6: "{{ item.wg.peer6 | default(none) }}"
+      own6: "{{ item.wg.own6 | default(none) }}"
+      psk: "{{ item.wg.psk | default(none) }}"
+      keepalive: "{{ item.wg.keepalive | default(none) }}"
+  loop: "{{ vars[inventory_hostname].peers | default([]) }}"
+  loop_control:
+    label: "{{ item.bgp.asn }}"
+
+- name: Render per-peer WireGuard configurations for DN42 peers
+  ansible.builtin.template:
+    src: dn42_tunnel.conf.j2
+    dest: "/etc/wireguard/{{ peer.name }}.conf"
+    owner: root
+    group: root
+    mode: "0600"
+  loop: "{{ wg_dn42_peer_list | default([]) }}"
+  loop_control:
+    loop_var: peer
+    label: "{{ peer.name }}"
+  register: dn42_peer_templates
+  when: (wg_dn42_peer_list | default([])) | length > 0
+
+- name: Set fact for rendered WireGuard peers
+  ansible.builtin.set_fact:
+    wg_rendered_peers: >-
+      {{ (wg_rendered_peers | default([])) + dn42_peer_templates.results }}
+  when: dn42_peer_templates is defined

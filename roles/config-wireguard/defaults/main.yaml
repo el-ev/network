@@ -1,5 +1,6 @@
 ---
 wireguard_private_key_path: "/etc/wireguard/privatekey"
+wireguard_public_key_path: "/etc/wireguard/publickey"
 
 wireguard_allowed_ips:
   - 10.0.0.0/8
@@ -9,7 +10,6 @@ wireguard_allowed_ips:
   - fe80::/64
   - ff00::/8
 
-wireguard_nodes_group: "nodes"
-wireguard_interface_prefix: "node_"
-wireguard_keepalive: 25
+wireguard_node_prefix: "node_"
+wireguard_dn42_prefix: "dn42_"
 inter_node_lla_prefix: "fe80::1023:"

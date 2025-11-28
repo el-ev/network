@@ -1,0 +1,29 @@
+[Interface]
+PrivateKey = {{ wireguard_private_key }}
+ListenPort = {{ peer.port }}
+Table = off
+
+{% if peer.peer4 %}
+PostUp = ip addr add {{ ownip }} peer {{ peer.peer4 }} dev %i
+{% endif %}
+
+{% if peer.peer6 %}
+{%   if not peer.peer6.startswith('fe80::') %}
+PostUp = ip addr add {{ ownip6 }} peer {{ peer.peer6 }} dev %i
+{%   elif peer.own6 %}
+PostUp = ip addr add {{ peer.own6 }} peer {{ peer.peer6 }} dev %i
+{%   else %}
+PostUp = ip addr add {{ link_local_ipv6 }} peer {{ peer.peer6 }} dev %i
+{%   endif %}
+{% endif %}
+
+[Peer]
+PublicKey = {{ peer.wg_pubkey }}
+Endpoint = {{ peer.endpoint }}
+{% if peer.psk %}
+PresharedKey = {{ peer.psk }}
+{% endif %}
+AllowedIPs = {{ wireguard_allowed_ips | join(', ') }}
+{% if peer.keepalive | default(0) | int > 0 %}
+PersistentKeepalive = {{ peer.keepalive | int }}
+{% endif %}

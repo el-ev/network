@@ -1,0 +1,54 @@
+---
+- name: Gather WireGuard node list
+  ansible.builtin.set_fact:
+    node_hosts: "{{ groups.get(node_group, []) | list }}"
+
+- name: Compute WireGuard ordering for this node
+  ansible.builtin.set_fact:
+    wg_node_self_order: "{{ node_hosts.index(inventory_hostname) + 1 }}"
+
+- name: Build WireGuard peer descriptors
+  ansible.builtin.set_fact:
+    wg_node_peer_list: "{{ (wg_node_peer_list | default([])) + [peer_entry] }}"
+  vars:
+    peer_hostvars: "{{ hostvars[peer] | default({}) }}"
+    peer_public_key: >-
+      {{ peer_hostvars.peer.wg_pubkey
+         if peer_hostvars.peer is defined and peer_hostvars.peer.wg_pubkey is defined
+         else (peer_hostvars.wg_pubkey if peer_hostvars.wg_pubkey is defined
+         else (peer_hostvars.wireguard_public_key | default(''))) }}
+    peer_entry:
+      name: "{{ peer }}"
+      interface_name: "{{ wireguard_node_prefix }}{{ peer | replace('-', '_') }}"
+      peer_order: "{{ node_hosts.index(peer) + 1 }}"
+      endpoint_host: "{{ peer_hostvars.ansible_host | mandatory }}"
+      public_key: "{{ peer_public_key }}"
+  loop: "{{ node_hosts }}"
+  loop_control:
+    loop_var: peer
+  when:
+    - peer != inventory_hostname
+    - >-
+      (ip_support | default('dual') == 'dual') or
+      (peer_hostvars.ip_support | default('dual') == 'dual') or
+      (ip_support | default('dual') == peer_hostvars.ip_support | default('dual'))
+
+- name: Render per-peer WireGuard configurations
+  ansible.builtin.template:
+    src: node_tunnel.conf.j2
+    dest: "/etc/wireguard/{{ peer.interface_name }}.conf"
+    owner: root
+    group: root
+    mode: "0600"
+  loop: "{{ wg_node_peer_list | default([]) }}"
+  loop_control:
+    loop_var: peer
+    label: "{{ peer.name }}"
+  register: node_peer_templates
+  when: (wg_node_peer_list | default([])) | length > 0
+
+- name: Set fact for rendered WireGuard peers
+  ansible.builtin.set_fact:
+    wg_rendered_peers: >-
+      {{ (wg_rendered_peers | default([])) + node_peer_templates.results }}
+  when: node_peer_templates is defined
