@@ -5,8 +5,8 @@
   vars:
     peer_name: "{{ dn42_prefix }}{{ (item.bgp.asn | string)[-4:] }}"
     peer_entry:
-      peer_name: "{{ name }}"
-      interface_name: "{{ name }}"
+      name: "{{ peer_name }}"
+      interface_name: "{{ peer_name }}"
       port: "{{ item.wg.port | default((item.bgp.asn | string)[-5:]) }}"
       endpoint: "{{ item.wg.endpoint | mandatory }}"
       wg_pubkey: "{{ item.wg.wg_pubkey | mandatory }}"
