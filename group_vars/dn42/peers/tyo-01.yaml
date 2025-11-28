@@ -60,13 +60,24 @@ tyo-01:
         ipv6: true
         extended_next_hop: true
         mp_bgp: true
-    - comment: 
+    - comment: cowgl
       wg:
         endpoint: tyo.node.cowgl.xyz:31023
         wg_pubkey: "mMGGxtEqsagrx1Raw57C2H3Stl6ch/cUuF7y08eVgBE="
         peer6: fe80::3999
       bgp:
         asn: 4242423999
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: Stevie
+      wg:
+        endpoint: tyo01.dn42.wwrr.ru:21023
+        wg_pubkey: "xZBEeAO1btrRvU7cpXTBqaw8CZsmxrfB0005OgljtmU="
+        peer6: fe80::337
+      bgp:
+        asn: 4242420337
         ipv4: false
         ipv6: true
         extended_next_hop: true

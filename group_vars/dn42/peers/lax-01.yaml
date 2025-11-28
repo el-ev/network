@@ -57,4 +57,15 @@ lax-01:
       ipv4: false
       ipv6: true
       extended_next_hop: true
-      mp_bgp: true  
+      mp_bgp: true
+  - comment: Stevie
+    wg:
+      endpoint: lax01.dn42.wwrr.ru:21023
+      wg_pubkey: "QK813SDMiaIhfBw9VOkpTCgQSLdUNFDmSphymv5c7To="
+      peer6: fe80::337
+    bgp:
+      asn: 4242420337
+      ipv4: false
+      ipv6: true
+      extended_next_hop: true
+      mp_bgp: true
