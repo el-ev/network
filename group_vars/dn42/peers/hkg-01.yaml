@@ -89,3 +89,25 @@ hkg-01:
         ipv6: true
         extended_next_hop: true
         mp_bgp: true
+    - comment: qiuxin
+      wg:
+        endpoint: hkg1.exploro.one:32615
+        wg_pubkey: "hsEWaH80s3f0+PNsfLbyHUnFTNOwdqoJMHHyhOUqdFs="
+        peer6: fe80::1771
+      bgp:
+        asn: 4242421771
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: mhr
+      wg:
+        endpoint: hk-hkg1.bb.mhr.hk:21023
+        wg_pubkey: "PUjqyQ3ATLp8Cxp3YFVQ44QLoZEpoPgdXsbMfXhDMRk="
+        peer6: fe80::2279
+      bgp:
+        asn: 4242422279
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true

@@ -1,2 +1,24 @@
 ams-01:
-  peers: []
+  peers:
+    - comment: qiuxin
+      wg:
+        endpoint: ams1.exploro.one:21023
+        wg_pubkey: "mk4P5eKx6gp/RYeRpPhQ9tQgCz8Lk3M5Lxdg/z4crW8="
+        peer6: fe80::1771
+      bgp:
+        asn: 4242421771
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: mhr
+      wg:
+        endpoint: 6.nl-ams1.bb.mhr.hk:21023
+        wg_pubkey: "cXdcdBVi0Yt78jmwGhnv+ju6dxSQ9YKX6xL7O91tmVw="
+        peer6: fe80::2279
+      bgp:
+        asn: 4242422279
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true

@@ -49,3 +49,14 @@ lax-02:
         ipv6: true
         extended_next_hop: true
         mp_bgp: true
+    - comment: qiuxin
+      wg:
+        endpoint: lax1.exploro.one:32641
+        wg_pubkey: "Fa6VU4TeRXm1qhUDk2qlunKtdM3GzwJR4TMaQg0jh2E="
+        peer6: fe80::1771
+      bgp:
+        asn: 4242421771
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
