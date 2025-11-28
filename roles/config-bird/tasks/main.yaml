@@ -126,7 +126,7 @@
 - name: Render per-node BIRD configurations
   ansible.builtin.template:
     src: node_peer.conf.j2
-    dest: "/etc/bird/nodes/{{ bird_node_prefix }}{{ peer | replace('-', '_') }}.conf"
+    dest: "/etc/bird/nodes/{{ node_prefix }}{{ peer | replace('-', '_') }}.conf"
     owner: bird
     group: bird
     mode: '0644'

@@ -19,7 +19,7 @@
          else (peer_hostvars.wireguard_public_key | default(''))) }}
     peer_entry:
       name: "{{ peer }}"
-      interface_name: "{{ wireguard_node_prefix }}{{ peer | replace('-', '_') }}"
+      interface_name: "{{ node_prefix }}{{ peer | replace('-', '_') }}"
       peer_order: "{{ node_hosts.index(peer) + 1 }}"
       endpoint_host: "{{ peer_hostvars.ansible_host | mandatory }}"
       public_key: "{{ peer_public_key }}"

@@ -10,6 +10,4 @@ wireguard_allowed_ips:
   - fe80::/64
   - ff00::/8
 
-wireguard_node_prefix: "node_"
-wireguard_dn42_prefix: "dn42_"
 inter_node_lla_prefix: "fe80::1023:"

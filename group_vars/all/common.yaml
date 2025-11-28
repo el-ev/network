@@ -15,3 +15,6 @@ automation_user_home: /opt/dn42/automation/
 
 node_group: nodes
 dn42_group: dn42
+
+node_prefix: node_
+dn42_prefix: dn42_

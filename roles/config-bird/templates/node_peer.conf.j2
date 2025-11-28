@@ -1,4 +1,4 @@
 {%- set peer_vars = hostvars.get(peer, {}) -%}
-protocol bgp {{ bird_node_prefix }}{{ peer | replace('-', '_') }} from internal_bgp {
+protocol bgp {{ node_prefix }}{{ peer | replace('-', '_') }} from internal_bgp {
     neighbor {{ peer_vars.ownip6 }} as OWNAS;
 }
