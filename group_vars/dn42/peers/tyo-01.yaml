@@ -64,7 +64,7 @@ tyo-01:
       wg:
         endpoint: tyo.node.cowgl.xyz:31023
         wg_pubkey: "mMGGxtEqsagrx1Raw57C2H3Stl6ch/cUuF7y08eVgBE="
-        peer6: fe80::3999
+        peer6: fe80::1:3999
       bgp:
         asn: 4242423999
         ipv4: false

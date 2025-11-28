@@ -5,7 +5,7 @@ lax-02:
         port: 23999
         endpoint: lax.node.cowgl.xyz:31023
         wg_pubkey: "jhOukGNAKHI8Ivn8uI1TS25n5ho/rVlKFfenGmwCVlg="
-        peer6: fe80::3999
+        peer6: fe80::2:3999
       bgp:
         asn: 4242423999
         ipv4: false
