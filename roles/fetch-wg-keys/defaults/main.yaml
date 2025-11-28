@@ -1,0 +1,2 @@
+---
+wireguard_private_key_path: "/etc/wireguard/privatekey"

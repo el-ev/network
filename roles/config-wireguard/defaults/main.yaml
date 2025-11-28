@@ -1,8 +1,6 @@
 ---
-# Path to WireGuard private key file
 wireguard_private_key_path: "/etc/wireguard/privatekey"
 
-# Allowed IP ranges for WireGuard tunnels
 wireguard_allowed_ips:
   - 10.0.0.0/8
   - 172.20.0.0/14
@@ -11,14 +9,7 @@ wireguard_allowed_ips:
   - fe80::/64
   - ff00::/8
 
-# Inventory group containing nodes for WireGuard mesh
 wireguard_nodes_group: "nodes"
-
-# Prefix for WireGuard interface names
 wireguard_interface_prefix: "node_"
-
-# Keepalive interval in seconds for WireGuard tunnels
 wireguard_keepalive: 25
-
-# Prefix for inter-node link-local addresses
 inter_node_lla_prefix: "fe80::1023:"

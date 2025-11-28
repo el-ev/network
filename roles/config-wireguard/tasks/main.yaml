@@ -7,6 +7,10 @@
   ansible.builtin.set_fact:
     wireguard_self_order: "{{ wireguard_node_hosts.index(inventory_hostname) + 1 }}"
 
+- name: Fetch WireGuard keys
+  ansible.builtin.include_role:
+    name: fetch-wg-keys
+
 - name: Build WireGuard peer descriptors
   ansible.builtin.set_fact:
     wireguard_peer_map: "{{ (wireguard_peer_map | default([])) + [peer_entry] }}"
@@ -15,7 +19,8 @@
     peer_public_key: >-
       {{ peer_hostvars.peer.wg_pubkey
          if peer_hostvars.peer is defined and peer_hostvars.peer.wg_pubkey is defined
-         else (peer_hostvars.wg_pubkey if peer_hostvars.wg_pubkey is defined else '') }}
+         else (peer_hostvars.wg_pubkey if peer_hostvars.wg_pubkey is defined
+         else (peer_hostvars.wireguard_derived_public_key | default(''))) }}
     peer_entry:
       name: "{{ peer }}"
       interface_name: "{{ wireguard_interface_prefix }}{{ peer | replace('-', '_') }}"
@@ -25,18 +30,13 @@
   loop: "{{ wireguard_node_hosts }}"
   loop_control:
     loop_var: peer
-  when: peer != inventory_hostname
+  when:
+    - peer != inventory_hostname
+    - >-
+      (ip_support | default('dual') == 'dual') or
+      (peer_hostvars.ip_support | default('dual') == 'dual') or
+      (ip_support | default('dual') == peer_hostvars.ip_support | default('dual'))
 
-- name: Read WireGuard private key
-  ansible.builtin.slurp:
-    src: "{{ wireguard_private_key_path }}"
-  register: wireguard_private_key_raw
-  no_log: true
-
-- name: Cache WireGuard private key content
-  ansible.builtin.set_fact:
-    wireguard_private_key: "{{ wireguard_private_key_raw.content | b64decode | trim }}"
-  no_log: true
 
 - name: Render per-peer WireGuard configurations
   ansible.builtin.template:

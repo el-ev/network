@@ -10,6 +10,7 @@ all:
           ownip6: fd42:4242:1023:65::1
           ownip6block: fd42:4242:1023:65::/64
           link_local_ipv6: fe80::1023:2
+          ip_support: dual
           wg_pubkey: "nwMyp5pohAUDaaT2oVQQZiE/EI31DnnxVqAcKIWSuiM="
 
         hkg-01:
@@ -18,6 +19,7 @@ all:
           ownip6: fd42:4242:1023:66::1
           ownip6block: fd42:4242:1023:66::/64
           link_local_ipv6: fe80::1023:2
+          ip_support: dual
           wg_pubkey: "dPTukyAM6scP2dlCYiP55BDb0lmuBhX7Rm4G8p/9awA="
 
         tyo-01:
@@ -26,6 +28,7 @@ all:
           ownip6: fd42:4242:1023:67::1
           ownip6block: fd42:4242:1023:67::/64
           link_local_ipv6: fe80::1023:2
+          ip_support: dual
           wg_pubkey: "pv0bwaUm/ppI7Yaoi7w0qrXX5EW7Qo2njTSNG19AHgM="
 
         dls-01:
@@ -34,6 +37,7 @@ all:
           ownip6: fd42:4242:1023:68::1
           ownip6block: fd42:4242:1023:68::/64
           link_local_ipv6: fe80::1023:2
+          ip_support: ipv4
           wg_pubkey: "NWNxHIL6Fdwk8AkflKAlpdpeo8l3fYyMZH+JcTug6iQ="
 
         lax-02:
@@ -42,8 +46,18 @@ all:
           ownip6: fd42:4242:1023:69::1
           ownip6block: fd42:4242:1023:69::/64
           link_local_ipv6: fe80::1023:2
+          ip_support: dual
           wg_pubkey: "yHtmGTi6r9AtrSeTZyl2yce6nHdSVcc017VMI1s9HH8="
-          
+
+        ams-01:
+          ansible_host: ams-01.node.svc.moe
+          ownip: 172.21.111.70
+          ownip6: fd42:4242:1023:70::1
+          ownip6block: fd42:4242:1023:70::/64
+          link_local_ipv6: fe80::1023:2
+          ip_support: ipv6
+          wg_pubkey: "EERaAzJ1oDMhWZCMIWbK4Gd523BDM2YlV1O7AB1th1Y="
+
     lg_server:
       hosts:
         lax-01:
@@ -54,4 +68,4 @@ all:
         tyo-01:
         dls-01:
         lax-02:
-
+        ams-01:
