@@ -1,15 +1,13 @@
 {%- set lg_server_list = groups['lg_server'] | default([]) -%}
-{%- set ns = namespace(allowed_ip_entries=['127.0.0.0/8']) -%}
+{%- set ns = namespace(allowed_ip_entries=['127.0.0.0/8', 'fe80::/10']) -%}
 
-{%- for lg_server in lg_server_list -%}
-{%-   set host_entry = hostvars[lg_server] | default({}) -%}
-{%-   set hostname = host_entry.get('ansible_host', lg_server) -%}
-{%-   set host_v4 = query('dig', hostname, 'qtype=A', 'flat=1') | default([], true) -%}
-{%-   set host_v6 = query('dig', hostname, 'qtype=AAAA', 'flat=1') | default([], true) -%}
-{%-   for ip in host_v4 -%}
+{%- for result in lg_server_v4.results | default([]) -%}
+{%-   for ip in result.stdout_lines -%}
 {%-     set ns.allowed_ip_entries = ns.allowed_ip_entries + [ip ~ '/32'] -%}
 {%-   endfor -%}
-{%-   for ip in host_v6 -%}
+{%- endfor -%}
+{%- for result in lg_server_v6.results | default([]) -%}
+{%-   for ip in result.stdout_lines -%}
 {%-     set ns.allowed_ip_entries = ns.allowed_ip_entries + [ip ~ '/128'] -%}
 {%-   endfor -%}
 {%- endfor -%}

@@ -98,6 +98,12 @@
     group: bird
     mode: '0755'
 
+- name: Ensure BIRD service is running
+  ansible.builtin.service:
+    name: bird
+    state: started
+    enabled: true
+
 - name: Render node-specific BIRD configuration
   ansible.builtin.template:
     src: node.conf.j2

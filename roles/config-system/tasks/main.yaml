@@ -11,6 +11,8 @@
       - iptables
       - rsync
       - ifupdown
+      - bind9-dnsutils
+      - bind9
     state: present
     update_cache: true
 
