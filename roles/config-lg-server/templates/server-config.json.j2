@@ -1,4 +1,5 @@
-{%- set listen_port = lg_proxy_listen_port | mandatory -%}
+{%- set first_listen_addr = lg_proxy_listen[0] if lg_proxy_listen is iterable and lg_proxy_listen is not string else lg_proxy_listen -%}
+{%- set listen_port = first_listen_addr.split(':')[-1] -%}
 {%- set shared_secret = lg_server_shared_secret | mandatory -%}
 {%- set nodes = namespace(items=[]) -%}
 
@@ -16,9 +17,10 @@
     "listen": lg_server_listen | mandatory,
     "network": {
     "name": network_name | mandatory,
-    "asn": asn | mandatory
+    "asn": asn | mandatory,
+    "comment": network_comment | default(None)
     },
-    "nodes": nodes.items
+    "nodes": nodes.items,
 } -%}
 
 {%- if lg_server_poll_idle_timeout is defined -%}

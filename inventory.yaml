@@ -39,6 +39,7 @@ all:
           link_local_ipv6: fe80::1023:2
           ip_support: ipv4
           wg_pubkey: "NWNxHIL6Fdwk8AkflKAlpdpeo8l3fYyMZH+JcTug6iQ="
+          peering_comment: "IPv4 only"
 
         lax-02:
           ansible_host: lax-02.node.svc.moe
@@ -57,6 +58,7 @@ all:
           link_local_ipv6: fe80::1023:2
           ip_support: ipv6
           wg_pubkey: "EERaAzJ1oDMhWZCMIWbK4Gd523BDM2YlV1O7AB1th1Y="
+          peering_comment: "IPv6 only"
 
     lg_server:
       hosts:

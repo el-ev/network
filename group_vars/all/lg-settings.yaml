@@ -1,9 +1,10 @@
 ---
 lg_proxy_shared_secret: "changeme-lg-proxy-secret"
-lg_proxy_listen_host: "0.0.0.0"
-lg_proxy_listen_port: 40953
+lg_proxy_listen:
+  - "[::]:40953"
 
 lg_server_shared_secret: "{{ lg_proxy_shared_secret }}"
-lg_server_listen: "127.0.0.1:40954"
+lg_server_listen:
+  - "[::]:40954"
 lg_server_endpoint: "http://lg-api.svc.moe"
 lg_server_poll_idle_timeout: 180

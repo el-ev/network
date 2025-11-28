@@ -2,6 +2,7 @@
 # Network Information
 network_name: IRIS-AS
 asn: "4242421023"
+network_comment: "Open to peering. MP BGP and IPv4 Extended Next Hop are supported on all nodes."
 
 # IP Address Assignments
 ownnet4: 172.21.111.64/26

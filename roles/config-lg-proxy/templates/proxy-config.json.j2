@@ -1,5 +1,5 @@
 {%- set lg_server_list = groups['lg_server'] | default([]) -%}
-{%- set ns = namespace(allowed_ip_entries=['127.0.0.0/8', 'fe80::/10']) -%}
+{%- set ns = namespace(allowed_ip_entries=['127.0.0.0/8', '::ffff:127.0.0.0/8', '::1/128']) -%}
 
 {%- for result in lg_server_v4.results | default([]) -%}
 {%-   for ip in result.stdout_lines -%}
@@ -14,7 +14,7 @@
 
 {%- set config = {
 	'bind_socket': (lg_proxy_bind_socket | default('/var/run/bird/bird.ctl')),
-	'listen': (lg_proxy_listen_host | mandatory) ~ ':' ~ (lg_proxy_listen_port | mandatory | string),
+	'listen': (lg_proxy_listen | mandatory),
 	'allowed_ips': ns.allowed_ip_entries | unique,
 	'shared_secret': (lg_proxy_shared_secret | mandatory),
 	'traceroute_bin': (lg_proxy_traceroute_bin | default('/usr/sbin/traceroute')),
@@ -24,7 +24,8 @@
 		'ipv6': (ownip6 | mandatory),
 		'link_local_ipv6': (link_local_ipv6 | mandatory),
 		'wg_pubkey': (wg_pubkey | mandatory),
-		'endpoint': (ansible_host | mandatory)
+		'endpoint': (ansible_host | mandatory),
+		'comment': (peering_comment | default(None)),
 	}
 } -%}
 
