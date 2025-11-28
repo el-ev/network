@@ -12,7 +12,7 @@ dns_service:
 
 # --- Variables & Anchors (Definitions) ---
 domain_name: iris.dn42
-reverse_zone_ipv4: 111.21.172.in-addr.arpa
+reverse_zone_ipv4: 64/26.111.21.172.in-addr.arpa
 reverse_zone_ipv6: 3.2.0.1.2.4.2.4.2.4.d.f.ip6.arpa
 dns_anycast_ns1_v4: 172.21.111.100
 dns_anycast_ns1_v6: "fd42:4242:1023::53:0"
@@ -130,11 +130,11 @@ dns_zones:
         type: AAAA
         value: fd42:4242:1023::53:1
 
-  - name: 111.21.172.in-addr.arpa
+  - name: 64/26.111.21.172.in-addr.arpa
     type: master
-    file: db.111.21.172.in-addr.arpa
+    file: db.64-26.111.21.172.in-addr.arpa
     ttl: 3600
-    origin: 111.21.172.in-addr.arpa.
+    origin: 64/26.111.21.172.in-addr.arpa.
     notify: true
     allow_transfer: *transfer_defaults
     allow_query:
