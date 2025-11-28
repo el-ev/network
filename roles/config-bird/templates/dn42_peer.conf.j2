@@ -1,0 +1,31 @@
+{%- set peer_name = dn42_prefix + (item.bgp.asn | string)[-4:] -%}
+{%- set extended_next_hop_switch = 'on' if item.bgp.get('extended_next_hop') else 'off' -%}
+{% if item.bgp.get('mp_bgp') %}
+protocol bgp {{ peer_name }} from dnpeers {
+    enable extended messages on;
+    neighbor {{ item.wg.peer6 }} as {{ item.bgp.asn }};
+    interface "{{ peer_name }}";
+    ipv4 {
+        extended next hop {{ extended_next_hop_switch }};
+    };
+}
+{% else %}
+
+{# Below are not tested #}
+
+{%   if item.bgp.get('ipv4') %}
+protocol bgp {{ peer_name }}_v4 from dnpeers {
+    enable extended messages on;
+    neighbor {{ item.wg.peer4 }} as {{ item.bgp.asn }};
+    interface "{{ peer_name }}";
+}
+{%   endif %}
+
+{%   if item.bgp.get('ipv6') %}
+protocol bgp {{ peer_name }}_v6 from dnpeers {
+    enable extended messages on;
+    neighbor {{ item.wg.peer6 }} as {{ item.bgp.asn }};
+    interface "{{ peer_name }}";
+}
+{%   endif %}
+{% endif %}
