@@ -1,7 +1,7 @@
 ---
-# - name: Setup WireGuard tunnels for nodes
-#   ansible.builtin.include_tasks:
-#     file: node.yaml
+- name: Setup WireGuard tunnels for nodes
+  ansible.builtin.include_tasks:
+    file: node.yaml
 
 - name: Setup WireGuard tunnels for DN42 peers
   ansible.builtin.include_tasks:
