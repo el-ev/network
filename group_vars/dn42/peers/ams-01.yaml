@@ -3,7 +3,7 @@ ams-01:
     - comment: qiuxin
       wg:
         endpoint: ams1.exploro.one:21023
-        wg_pubkey: "mk4P5eKx6gp/RYeRpPhQ9tQgCz8Lk3M5Lxdg/z4crW8="
+        wg_pubkey: "v0aE4+VXOMccNcG5Lfz9VC5giWxOkYRXrLGEdJNgBiY="
         peer6: fe80::1771
       bgp:
         asn: 4242421771
