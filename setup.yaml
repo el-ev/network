@@ -1,7 +1,30 @@
 ---
-- name: Setup fresh system
+- name: System Configuration
   hosts: dn42
   become: true
   gather_facts: true
   roles:
     - config-system
+
+- name: Network Configuration
+  hosts: dn42
+  become: true
+  gather_facts: true
+  roles:
+    - config-wireguard
+    - config-bird
+
+- name: Services Configuration
+  hosts: dn42
+  become: true
+  gather_facts: true
+  roles:
+    - config-dns
+    - config-lg-proxy
+
+- name: Looking Glass Server
+  hosts: lg_server
+  become: true
+  gather_facts: true
+  roles:
+    - config-lg-server
