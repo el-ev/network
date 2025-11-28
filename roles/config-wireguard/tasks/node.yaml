@@ -32,7 +32,7 @@
       (ip_support | default('dual') == 'dual') or
       (peer_hostvars.ip_support | default('dual') == 'dual') or
       (ip_support | default('dual') == peer_hostvars.ip_support | default('dual'))
-    - target is undefined or target == peer.interface_name
+    - target is undefined or target == (node_prefix ~ peer | replace('-', '_'))
 
 - name: Render per-peer WireGuard configurations
   ansible.builtin.template:
