@@ -35,3 +35,14 @@
   loop: "{{ wg_rendered_peers | default([]) }}"
   loop_control:
     label: "{{ item.peer.interface_name }}"
+  when: not (remove | default(false))
+
+- name: Ensure wg-quick services are stopped and disabled
+  ansible.builtin.systemd:
+    name: "wg-quick@{{ item.peer.interface_name }}"
+    state: stopped
+    enabled: false
+  loop: "{{ wg_rendered_peers | default([]) }}"
+  loop_control:
+    label: "{{ item.peer.interface_name }}"
+  when: remove | default(false)
