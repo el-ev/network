@@ -1,5 +1,5 @@
 ---
-lg_proxy_shared_secret: "changeme-lg-proxy-secret"
+# lg_proxy_shared_secret: "changeme-lg-proxy-secret"
 lg_proxy_listen:
   - "[::]:40953"
 

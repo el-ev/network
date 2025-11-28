@@ -1,3 +1,4 @@
 .ansible
 .vscode
 *.retry
+vault_pass.txt
