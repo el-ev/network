@@ -1,0 +1,91 @@
+hkg-01:
+  peers:
+    - comment: HExpNetwork
+      wg:
+        endpoint: node2.ox5.cc:21023
+        wg_pubkey: "pS0Xt7cbWU6Pjfq7+OCKQkpT9sSrI3y4gIUY8WdaLhM="
+        psk: "{{ hkg_01_dn42_0298_psk }}"
+        peer6: fe80::298
+      bgp:
+        asn: 4242420298
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: Stevie
+      wg:
+        endpoint: hkg01.dn42.wwrr.ru:21023
+        wg_pubkey: "jQAdLlfZ0mQBAAxIfSnltEBQQRIlf9/jMGWWPIOZY0Q="
+        peer6: fe80::337
+      bgp:
+        asn: 4242420337
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: yuyuko
+      wg:
+        endpoint: hk01.dn42.yuyuko.com:21117
+        wg_pubkey: "gqwdC9p6jdSy80oRxdatr9QdSrNMLCvRMadaCeOBqDY="
+        peer6: fe80::1117
+      bgp:
+        asn: 4242421117
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: iedon
+      wg:
+        endpoint: hk-hkg.dn42.iedon.net:47122
+        wg_pubkey: "OlUDuWkUI9pKNsNo7Vjf/GKKVSBslh9kmqjbeYA4+34="
+        peer6: fe80::2189:120
+      bgp:
+        asn: 4242422189
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: potat0
+      wg:
+        endpoint: hkg.node.potat0.cc:21023
+        wg_pubkey: "Tv1+HniELrS4Br2i7oQgwqBJFXQKculsW8r+UOqQXH0="
+        peer6: fe80::1816
+      bgp:
+        asn: 4242421816
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: iyoroy
+      wg:
+        endpoint: hkg02-cn.ecs.iyoroy-infra.top:21023
+        wg_pubkey: "bg+KnzVupBrOQntHFFVzvBx+3sqYVoyJRantT6m5fm8="
+        peer6: fe80::2024
+      bgp:
+        asn: 4242422024
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: BingxinBaka
+      wg:
+        endpoint: hk01.dn42.baka.pub:21023
+        wg_pubkey: "zcxhWeI3SrJtqlHuqdeNaCeWSwJIYOTjAraXm655+VY="
+        peer6: fe80::2999:225
+      bgp:
+        asn: 4242423374
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: cowgl
+      wg:
+        endpoint: hkg.node.cowgl.xyz:31023
+        wg_pubkey: "mGGBczSVKW+7UKRquI2GkbKrfxiATv9r4uF5WTP+vWI="
+        peer6: fe80::3999
+      bgp:
+        asn: 4242423999
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true

@@ -1,0 +1,60 @@
+lax-01:
+  peers:
+  - comment: kioubit
+    wg:
+      port: 23914
+      endpoint: us3.g-load.eu:21023
+      wg_pubkey: "sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8="
+      psk: null
+      peer4: null
+      peer6: fe80::ade0
+    bgp:
+      asn: 4242423914
+      ipv4: false
+      ipv6: true
+      extended_next_hop: true
+      mp_bgp: true
+  - comment: darkpoint
+    wg:
+      endpoint: iad.darkpoint.xyz:21023
+      wg_pubkey: "1o0XfQvBM1gqknqzfuOnVmf2RjRTHuyMZYNipSSb2TQ="
+      peer6: fe80::150
+    bgp:
+      asn: 4242420150
+      ipv4: false
+      ipv6: true
+      extended_next_hop: true
+      mp_bgp: true
+  - comment: nedifinita
+    wg:
+      endpoint: dn42b.nedifinita.com:48894
+      wg_pubkey: "W4yTKYVWin9xkSDgGRKA6DlGADOMZADGR6OaJZgV1UI="
+      peer6: fe80::454:2
+    bgp:
+      asn: 4242420454
+      ipv4: false
+      ipv6: true
+      extended_next_hop: true
+      mp_bgp: true
+  - comment: daylily
+    wg:
+      endpoint: sjc1.dn42.dayli.ly:41023
+      wg_pubkey: "yOt9PIXDa4pzAE+XMzDv7J+CYO2qf53fnF9MvLy4iQ8="
+      peer6: fe80::1919
+    bgp:
+      asn: 4242421919
+      ipv4: false
+      ipv6: true
+      extended_next_hop: true
+      mp_bgp: true
+  - comment: leziblog
+    wg:
+      endpoint: los1-us.peer.dn42.leziblog.com:21023
+      wg_pubkey: "Xzt9UrH2moj84QSH0jsw8Zj+jwXwdBLpApe4hHyfnAw="
+      peer6: fe80::3377
+    bgp:
+      asn: 4242423377
+      ipv4: false
+      ipv6: true
+      extended_next_hop: true
+      mp_bgp: true  
