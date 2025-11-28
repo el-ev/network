@@ -54,7 +54,11 @@ _forward_zone_defaults: &forward_zone_defaults
 
 dns_named_options:
   directory: /var/cache/bind
-  forwarders: *dn42_forwarders 
+  forwarders:
+    - 9.9.9.9
+    - 1.1.1.1
+    - "2620:fe::fe"
+    - "2606:4700:4700::1111"
   dnssec_validation: auto
   listen_on_v4:
     - 127.0.0.1
@@ -89,7 +93,7 @@ dns_nameserver_bindings:
       - ::1
       - fd42:4242:1023::53:0
       - fd42:4242:1023::53:1
-  
+
   hkg-01: *anycast_binding
   tyo-01: *anycast_binding
 
@@ -106,10 +110,10 @@ dns_zones:
       - any
     soa: *soa_defaults
     records:
-      - name: '@'
+      - name: "@"
         type: NS
         value: ns1.iris.dn42.
-      - name: '@'
+      - name: "@"
         type: NS
         value: ns2.iris.dn42.
       # Anycast IPs
@@ -135,19 +139,19 @@ dns_zones:
     allow_transfer: *transfer_defaults
     allow_query:
       - any
-    soa: *soa_defaults 
+    soa: *soa_defaults
     records:
-      - name: '@'
+      - name: "@"
         type: NS
         value: ns1.iris.dn42.
-      - name: '@'
+      - name: "@"
         type: NS
         value: ns2.iris.dn42.
       # PTRs for Anycast
-      - name: '100'
+      - name: "100"
         type: PTR
         value: ns1.iris.dn42.
-      - name: '101'
+      - name: "101"
         type: PTR
         value: ns2.iris.dn42.
 
@@ -166,10 +170,10 @@ dns_zones:
       # TODO suppress warning
       serial: 2025112602
     records:
-      - name: '@'
+      - name: "@"
         type: NS
         value: ns1.iris.dn42.
-      - name: '@'
+      - name: "@"
         type: NS
         value: ns2.iris.dn42.
       # PTRs for Anycast
