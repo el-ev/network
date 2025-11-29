@@ -1,0 +1,69 @@
+---
+- name: Create lg workspace
+  ansible.builtin.file:
+    path: "{{ automation_root_dir }}/lg"
+    state: directory
+    owner: "{{ automation_user }}"
+    group: nogroup
+    mode: "0755"
+
+- name: Check existing lg proxy binary
+  ansible.builtin.stat:
+    path: "{{ automation_root_dir }}/lg/lg-proxy"
+  register: lg_proxy_binary
+
+- name: Backup current lg proxy binary
+  ansible.builtin.copy:
+    src: "{{ automation_root_dir }}/lg/lg-proxy"
+    dest: "{{ automation_root_dir }}/lg/lg-proxy.backup"
+    remote_src: true
+    owner: root
+    group: nogroup
+    mode: "0755"
+  when: lg_proxy_binary.stat.exists
+
+- name: Copy lg proxy binary
+  ansible.builtin.copy:
+    src: lg-proxy
+    dest: "{{ automation_root_dir }}/lg/lg-proxy"
+    owner: root
+    group: nogroup
+    mode: "0755"
+  notify: Restart lg-proxy
+
+- name: Resolve lg_server hostnames (IPv4)
+  ansible.builtin.command: "dig +short A {{ hostvars[item].ansible_host | default(item) }}"
+  loop: "{{ groups['lg_server'] | default([]) }}"
+  register: lg_server_v4
+  changed_when: false
+
+- name: Resolve lg_server hostnames (IPv6)
+  ansible.builtin.command: "dig +short AAAA {{ hostvars[item].ansible_host | default(item) }}"
+  loop: "{{ groups['lg_server'] | default([]) }}"
+  register: lg_server_v6
+  changed_when: false
+
+- name: Render lg proxy config
+  ansible.builtin.template:
+    src: proxy-config.json.j2
+    dest: "{{ automation_root_dir }}/lg/proxy-config.json"
+    owner: root
+    group: nogroup
+    mode: "0644"
+  notify: Restart lg-proxy
+
+- name: Setup lg-proxy systemd service
+  ansible.builtin.template:
+    src: lg-proxy.service.j2
+    dest: /etc/systemd/system/lg-proxy.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart lg-proxy
+
+- name: Enable and start lg-proxy service
+  ansible.builtin.systemd:
+    name: lg-proxy.service
+    enabled: true
+    state: started
+    daemon_reload: true

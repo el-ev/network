@@ -1,0 +1,58 @@
+---
+- name: Install packages
+  ansible.builtin.apt:
+    name:
+      - wireguard
+      - wireguard-tools
+      - bird2
+      - git
+      - cron
+      - acl
+      - iptables
+      - rsync
+      - ifupdown
+      - bind9-dnsutils
+      - bind9
+    state: present
+    update_cache: true
+
+- name: Setup wireguard
+  block:
+    - name: Create /etc/wireguard directory
+      ansible.builtin.file:
+        path: /etc/wireguard
+        state: directory
+        mode: "0755"
+
+    - name: Generate WireGuard private key
+      ansible.builtin.shell: "set -o pipefail; wg genkey | cat > /etc/wireguard/privatekey"
+      args:
+        creates: /etc/wireguard/privatekey
+        executable: /bin/bash
+
+    - name: Set permissions on private key
+      ansible.builtin.file:
+        path: /etc/wireguard/privatekey
+        state: file
+        mode: "0600"
+
+    - name: Generate WireGuard public key
+      ansible.builtin.shell: "wg pubkey < /etc/wireguard/privatekey > /etc/wireguard/publickey"
+      args:
+        creates: /etc/wireguard/publickey
+        executable: /bin/bash
+
+    - name: Set permissions on public key
+      ansible.builtin.file:
+        path: /etc/wireguard/publickey
+        state: file
+        mode: "0644"
+
+- name: Read WireGuard public key
+  ansible.builtin.slurp:
+    src: /etc/wireguard/publickey
+  register: wg_pubkey
+
+- name: Print WireGuard public key
+  ansible.builtin.debug:
+    msg: "Node {{ inventory_hostname }} WireGuard Public Key: {{ wg_pubkey.content | b64decode | trim }}"
