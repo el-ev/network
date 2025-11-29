@@ -22,3 +22,25 @@ ams-01:
         ipv6: true
         extended_next_hop: true
         mp_bgp: true
+    - comment: darkpoint
+      wg:
+        endpoint: fra.darkpoint.xyz:21023
+        wg_pubkey: "nfoxTtmJdBdxNR3TmfVLG13KA5E+ZtU+uIGCegxrxxw="
+        peer6: fe80::150
+      bgp:
+        asn: 4242420150
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: sun
+      wg:
+        endpoint: v6.ams1-nl.dn42.6700.cc:21023
+        wg_pubkey: "AgXewx4akBG9QI9ClbJMcflmDY1rsdOslRTI/CL4PHk="
+        peer6: fe80::3088:194
+      bgp:
+        asn: 4242423088
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true

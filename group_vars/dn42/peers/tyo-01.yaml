@@ -104,3 +104,14 @@ tyo-01:
         ipv6: true
         extended_next_hop: true
         mp_bgp: true
+    - comment: sun
+      wg:
+        endpoint: v6.tyo1-jp.dn42.6700.cc:21023
+        wg_pubkey: "b3gUz8an2+wSCvXAwuxGR7AnxKDUqqQMd1+LASo93R0="
+        peer6: fe80::3088:190
+      bgp:
+        asn: 4242423088
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true

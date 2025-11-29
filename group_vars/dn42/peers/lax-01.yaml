@@ -80,3 +80,14 @@ lax-01:
       ipv6: true
       extended_next_hop: true
       mp_bgp: true
+  - comment: sun
+    wg:
+      endpoint: v6.lax1-us.dn42.6700.cc:21023
+      wg_pubkey: "QSAeFPotqFpF6fFe3CMrMjrpS5AL54AxWY2w1+Ot2Bo="
+      peer6: fe80::3088:193
+    bgp:
+      asn: 4242423088
+      ipv4: false
+      ipv6: true
+      extended_next_hop: true
+      mp_bgp: true

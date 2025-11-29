@@ -111,3 +111,25 @@ hkg-01:
         ipv6: true
         extended_next_hop: true
         mp_bgp: true
+    - comment: darkpoint
+      wg:
+        endpoint: sin.darkpoint.xyz:21023
+        wg_pubkey: "LbAFxxPonoNUzWiaxa/ulNYfv0d729DG6qAmg2X5egc="
+        peer6: fe80::150
+      bgp:
+        asn: 4242420150
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
+    - comment: sun
+      wg:
+        endpoint: v6.hk1-hk.dn42.6700.cc:21023
+        wg_pubkey: "rBTH+JyZB0X/DkwHByrCjCojxBKr/kEOm1dTAFGHR1w="
+        peer6: fe80::3088:192
+      bgp:
+        asn: 4242423088
+        ipv4: false
+        ipv6: true
+        extended_next_hop: true
+        mp_bgp: true
