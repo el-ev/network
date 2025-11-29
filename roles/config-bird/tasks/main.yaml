@@ -134,6 +134,8 @@
   ansible.builtin.template:
     src: node_peer.conf.j2
     dest: "/etc/bird/nodes/{{ node_prefix }}{{ peer | replace('-', '_') }}.conf"
+    owner: bird
+    group: bird
     mode: '0644'
   loop: "{{ node_hosts }}"
   loop_control:
@@ -159,6 +161,10 @@
 
 - name: Render DN42 peer configurations
   ansible.builtin.template:
+    src: dn42_peer.conf.j2
+    dest: "/etc/bird/peers/{{ dn42_prefix }}{{ (item.bgp.asn | string)[-4:] }}.conf"
+    owner: bird
+    group: bird
     mode: '0644'
   loop: "{{ lookup('vars', inventory_hostname).peers | default([]) }}"
   when:
